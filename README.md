@@ -35,8 +35,7 @@ No backend required — everything runs in the browser.
 ---
 
 ## 🖥️ Live Demo (GitHub Pages)  
-🚀 **Coming Soon:** `https://USERNAME.github.io/crud-code-generator/`  
-_(After you enable GitHub Pages, update this link.)_
+🚀 **Coming Soon:** `https://Functioneer.github.io/crud-code-generator/`  
 
 ---
 
