@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="crud_wht.png">
+<title>CRUD Builder - Phase 1.2 UI</title>
+<style>
+
+/* ✅ Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+/* ✅ Light & Dark Theme Variables */
+:root {
+    --bg-color: #E9EDF1;
+    --text-color: #333;
+    --card-bg: #F9F9F9;
+    --border-color: #ddd;
+    --accent-color: #007bff;
+    --button-bg: #007bff;
+    --button-text: #fff;
+    --button-hover-bg: #005ec2;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --pre-color: #ededed;
+}
+
+.dark-theme {
+    --bg-color: #1f1f1f;
+    --text-color: #e2e2e2;
+    --card-bg: #2d2d2d;
+    --border-color: #444;
+    --accent-color: #4da3ff;
+    --button-bg: #4da3ff;
+    --button-text: #121212;
+    --button-hover-bg: #3486d6;
+    --shadow-color: rgba(255, 255, 255, 0.06);
+    --pre-color: #ededed;
+}
+
+/* ✅ Smooth theme transitions */
+* {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ✅ Global Page Styling */
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 90%;
+    margin: 0px;
+    padding: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+
+/* ✅ Generic Card Style (used later for sections) */
+.card {
+    background-color: var(--card-bg);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+/* ✅ Buttons (primary style) */
+button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* ✅ Input Fields & Selects */
+input, select, textarea {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+/* ✅ Code Previews */
+pre {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px;
+    overflow: auto;
+}
+
+/* ✅ Section Headings */
+h2 {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    section {
+        background-color: var(--bg-color);
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    /* Compact Global Settings Grid */
+    .settings-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+    }
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 4px;
+    }
+    input, select {
+        width: 100%;
+        padding: 6px;
+        margin-bottom: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    th, td {
+        padding: 8px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+    button {
+        cursor: pointer;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        background: #007bff;
+        color: #fff;
+        margin: 5px;
+    }
+    button:hover {
+        background: #0056b3;
+    }
+    .remove-btn {
+        background: #dc3545;
+    }
+    .remove-btn:hover {
+        background: #a71d2a;
+    }
+    .inline-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    
+/* === Unified Accordion Card Styling === */
+.accordion-item {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px var(--shadow-color);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+/* Header */
+.accordion-item button {
+    width: 100%;
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    padding: 14px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Header hover effect */
+.accordion-item button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Accordion body */
+.accordion-item div {
+    background-color: var(--card-bg) !important;
+    padding: 16px;
+}
+
+/* Code block */
+.accordion-item pre {
+    background-color: var(--pre-color) !important;
+    color: #444;
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 3px var(--shadow-color);
+}
+
+#generateBtn { font-size: 15pt; padding: 6px 50px; }
+
+
+/* ✅ Improve theme toggle button readability in both themes */
+#themeToggleBtn, #refreshBtn {
+    background-color: var(--button-bg);
+    color: #fff;
+    float: right;
+    margin: 20px 20px 0px 0px;
+}
+#themeToggleBtn:hover {
+    background-color: var(--button-hover-bg);
+}
+
+/* ===== FORM SPACING & LAYOUT IMPROVEMENTS ===== */
+.layout-preview {
+		    display: grid;
+		    grid-template-columns: repeat(2, 1fr);
+		    gap: 0px !important;
+		    align-items: start;
+		    justify-items: start;
+		    padding: 0px;
+		    background-color: var(--bg-color);
+		    border-radius: 6px;
+		    min-height: 200px;
+		}
+		
+.container-box {
+		    background: transparent;
+		    border: 1px solid #ccc;
+		    border-radius: 6px;
+		    padding: 12px 12px 0px 12px;
+		    min-height: 80px;
+		    display: flex;
+		    align-items: start;
+		    justify-content: center;
+		    text-align: center;
+		    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+		    font-family: Arial, sans-serif;
+}
+
+.container-box:first-child { width: 75%; text-align: center; }
+
+.container-box:nth-child(2) {  width: 114% !important; position:relative; right: 150px; }
+
+.container-box:nth-child(2) .card { width: 97.5%; }
+
+.container-box:nth-child(5) {  margin-top: 20px !important; }
+
+.container-box:last-child, .card:last-child { display: block; width: 100%; }
+
+.settings-grid div { margin: 0px auto -40px auto; text-align: left;}
+
+.settings-grid div:last-child  { margin: 0px auto 20px auto; }
+
+/* Optional: Make buttons inline on Field card */
+#addFieldBtn {
+    width: auto;
+}
+
+/* Layer consistency for table field rows (applied later when fields populate) */
+#fieldsContainer .field-row {
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--card-bg);
+}
+
+#footer{width: 97%; padding:0; margin: 20px auto; font-size:9pt; text-align:right; }
+
+@media screen and (max-width: 1500px) {
+   .container-box:first-child { width: 65% !important; }
+}
+</style>
+</head>
+<body>
+<button id="refreshBtn" style="margin-bottom: 20px;" onclick="window.location.reload();">↻ Refresh</button>
+<button id="themeToggleBtn" style="margin-bottom: 20px;">🌙 Dark Mode</button>
+
+<h1>CRUD Builder - Phase 1.2</h1>
+
+<div class="layout-preview">
+<div class="container-box"><!-- ✅ CARD 1: Global Settings -->
+<div class="card">
+
+    <h2>Global Settings</h2>
+    <div class="settings-grid">
+        <div>
+            <label>Project Name</label>
+            <input type="text" id="projectName" placeholder="e.g., my_app">
+        </div>
+        <div>
+            <label>Database Name</label>
+            <input type="text" id="databaseName" placeholder="e.g., my_database">
+        </div>
+        <div>
+            <label>Table Name</label>
+            <input type="text" id="tableName" placeholder="e.g., products">
+        </div>
+        <div>
+            <label>Host</label>
+            <input type="text" id="dbHost" value="localhost">
+        </div>
+        <div>
+            <label>User</label>
+            <input type="text" id="dbUser" value="root">
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" id="dbPassword" placeholder="Optional">
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+<div class="container-box"><!-- ✅ CARD 2: Table Fields Builder -->
+<div class="card">
+    <h2>Field Builder</h2>
+
+    <div class="inline-controls">
+        <select id="presetField">
+            <option value="">Add Preset Field...</option>
+            <option value="id">Auto ID (INT, PK, AI)</option>
+            <option value="title">Title (VARCHAR 255)</option>
+            <option value="description">Description (TEXT)</option>
+            <option value="price">Price (FLOAT)</option>
+            <option value="created">Created Date (DATE)</option>
+            <option value="boolean">Active (BOOLEAN)</option>
+        </select>
+        <button type="button" id="addFieldBtn">+ Add Manual Field</button>
+    </div>
+
+    <table id="fieldsTable">
+        <thead>
+            <tr>
+                <th>Field Name</th>
+                <th>Data Type</th>
+                <th>Length</th>
+                <th>PK</th>
+                <th>AI</th>
+                <th>Form Input</th>
+                <th>Show in Index</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+<div class="container-box"><!-- ✅ CARD 3: Generate Actions -->
+<div class="card">
+    <button id="generateBtn" disabled>Generate CRUD Files</button>
+</div>
+</div>
+
+
+<section id="outputSection" class="card" style="display: none; margin-top: 30px;">
+    <h2>Generated Files</h2>
+    <div id="accordionContainer" class="accordion"></div>
+    
+    <button id="downloadZipBtn" style="margin-top: 20px;">Download All as ZIP</button>
+</section>
+<div id="footer">	
+ © Copyright 2025<script>new Date().getFullYear()>2025&&document.write("-"+new Date().getFullYear());</script> Jim Bristol. All rights reserved.
+</div>
+<script>
+  /* ========== Phase 2.1: collect data ========== */
+  function collectCRUDData() {
+    const projectName = document.getElementById("projectName").value.trim();
+    const databaseName = document.getElementById("databaseName").value.trim();
+    const tableName   = document.getElementById("tableName").value.trim();
+    const host = document.getElementById("dbHost").value.trim();
+    const user = document.getElementById("dbUser").value.trim();
+    const password = document.getElementById("dbPassword").value.trim();
+
+    const fields = [];
+    document.querySelectorAll("#fieldsTable tbody tr").forEach(row => {
+      const fieldName = row.querySelector(".field-name").value.trim();
+      const dataType  = row.querySelector(".field-type").value;
+      const lenInput  = row.querySelector(".field-length");
+      const length    = lenInput.disabled ? "" : lenInput.value.trim();
+      const isPrimaryKey    = row.querySelector(".field-pk").checked;
+      const isAutoIncrement = row.querySelector(".field-ai").checked;
+      const formInputType   = row.querySelector(".field-formtype").value;
+      const showInIndex     = row.querySelector(".field-show").checked;
+
+      if (fieldName) {
+        fields.push({
+          fieldName,
+          dataType,
+          length,
+          isPrimaryKey,
+          isAutoIncrement,
+          formInputType,
+          showInIndex
+        });
+      }
+    });
+
+    return {
+      projectName,
+      databaseName,
+      tableName,
+      dbConfig: { host, user, password },
+      fields
+    };
+  }
+
+  /* ========== Phase 2.2: generate SQL ========== */
+  function generateSQL(data) {
+    const { tableName, fields } = data;
+
+    let sql = `CREATE TABLE \`${tableName}\` (\n`;
+
+    fields.forEach((field, i) => {
+      let line = `  \`${field.fieldName}\` ${field.dataType}`;
+      if (field.length) line += `(${field.length})`;
+      line += ` NOT NULL`;
+      if (field.isAutoIncrement) line += ` AUTO_INCREMENT`;
+      line += (i < fields.length - 1) ? `,\n` : `\n`;
+      sql += line;
+    });
+
+    const pk = fields.find(f => f.isPrimaryKey);
+    if (pk) sql += `,  PRIMARY KEY (\`${pk.fieldName}\`)\n`;
+
+    sql += `);`;
+    return sql;
+  }
+  
+  /* ========== Generate db_connect.php ========== */
+  function generateDBConnectPHP(data) {
+    const { host, user, password } = data.dbConfig;
+    const { databaseName } = data;
+
+    return `<?php
+	$host = "${host}";
+	$user = "${user}";
+	$password = "${password}";
+	$database = "${databaseName}";
+
+	$conn = mysqli_connect($host, $user, $password, $database);
+
+	if (!$conn) {
+	    die("Connection failed: " . mysqli_connect_error());
+	}
+	?>`;
+	}
+
+
+	/* ========== Generate index.php file ========== */
+	function generateIndexPHP(data) {
+	    const { tableName, fields } = data;
+
+	    // Find primary key
+	    const primaryKeyField = fields.find(f => f.isPrimaryKey);
+	    const primaryKey = primaryKeyField ? primaryKeyField.fieldName : fields[0]?.fieldName;
+
+	    // Collect fields to display
+	    const displayFields = fields.filter(f => f.showInIndex);
+
+	    let php = `<?php include 'db_connect.php'; ?>\n\n`;
+	    php += `<?php\n`;
+	    php += `\$query = "SELECT * FROM \`${tableName}\`";\n`;
+	    php += `\$result = mysqli_query(\$conn, \$query);\n`;
+	    php += `?>\n\n`;
+
+	    php += `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">\n`;
+	    php += `<html>\n`;
+	    php += `<head>\n`;
+	    php += `<title>index.php</title>\n`;
+	    php += `</head>\n`;
+	    php += `<body>\n`;
+	    php += `<table border="1">\n`;
+	    php += `    <tr>\n`;
+
+	    // Table Headers
+	    if (displayFields.length > 0) {
+		displayFields.forEach(field => {
+		    php += `        <th>${field.fieldName}</th>\n`;
+		});
+	    } else {
+		php += `        <th>${primaryKey}</th>\n`;
+	    }
+
+	    php += `        <th>Actions</th>\n`;
+	    php += `    </tr>\n\n`;
+
+	    php += `    <?php while (\$row = mysqli_fetch_assoc(\$result)) : ?>\n`;
+	    php += `        <tr>\n`;
+
+	    // Table Data Cells
+	    if (displayFields.length > 0) {
+		displayFields.forEach(field => {
+		    php += `            <td><?= \$row['${field.fieldName}']; ?></td>\n`;
+		});
+	    } else {
+		php += `            <td><?= \$row['${primaryKey}']; ?></td>\n`;
+	    }
+
+	    // Action Links
+	    php += `            <td>\n`;
+	    php += `                <a href="read.php?${primaryKey}=<?= \$row['${primaryKey}']; ?>">Read</a> |\n`;
+	    php += `                <a href="edit.php?${primaryKey}=<?= \$row['${primaryKey}']; ?>">Edit</a> |\n`;
+	    php += `                <a href="delete.php?${primaryKey}=<?= \$row['${primaryKey}']; ?>">Delete</a>\n`;
+	    php += `            </td>\n`;
+	    php += `        </tr>\n`;
+	    php += `    <?php endwhile; ?>\n`;
+	    php += `</table>\n\n`;
+	    php += `<a href="insert.php">Add New</a>\n`;
+	    php += `</body>\n`;
+	    php += `</html>`
+	    
+	    return php;
+	}
+
+	/* ========== Generate insert.php ========== */
+	function generateInsertPHP(data) {
+	  const { tableName, fields } = data;
+
+	  // Identify editable (non-PK, non-auto-increment) fields
+	  const editableFields = fields.filter(f => !f.isPrimaryKey && !f.isAutoIncrement);
+
+	  // Build PHP variable declarations for each field
+	  let phpVars = "";
+	  editableFields.forEach(field => {
+	    if (field.formInputType === "checkbox") {
+	      phpVars += `$${field.fieldName} = isset($_POST['${field.fieldName}']) ? 1 : 0;\n`;
+	    } else {
+	      phpVars += `$${field.fieldName} = $_POST['${field.fieldName}'];\n`;
+	    }
+	  });
+
+	  // Build the SQL insert statement
+	  const columnNames = editableFields.map(f => `\`${f.fieldName}\``).join(", ");
+	  const valueNames = editableFields.map(f => `'$${f.fieldName}'`).join(", ");
+	  const sqlInsert = `INSERT INTO \`${tableName}\` (${columnNames}) VALUES (${valueNames})`;
+
+	  // Build HTML form fields
+	  let formFields = "";
+	  editableFields.forEach(field => {
+	    if (field.formInputType === "textarea") {
+	      formFields += `
+	<label>${field.fieldName}</label>
+	<textarea name="${field.fieldName}" required></textarea>\n`;
+	    } else if (field.formInputType === "checkbox") {
+	      formFields += `
+	<label>${field.fieldName}</label>
+	<input type="checkbox" name="${field.fieldName}">\n`;
+	    } else {
+	      formFields += `
+	<label>${field.fieldName}</label>
+	<input type="${field.formInputType}" name="${field.fieldName}" required>\n`;
+	    }
+	  });
+
+	  // Combine into full PHP page
+	  let php = `<?php include 'db_connect.php'; ?>\n
+	<?php
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	${phpVars}
+	  $query = "${sqlInsert}";
+	  mysqli_query($conn, $query);
+	  header("Location: index.php");
+	  exit;
+	}
+	?>\n
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+	<head>
+	<title>insert.php</title>
+	</head>
+	<body>
+	<form action="" method="POST">
+	${formFields}
+	<button type="submit">Save</button>
+	</form>
+	<a href="index.php">Back to List</a>
+	</body>
+	</html>`;
+	
+	  return php;
+	}
+
+	/* ========== Generate read.php ========== */
+	function generateReadPHP(data) {
+	    const { tableName, fields } = data;
+
+	    // Detect primary key field
+	    const primaryKeyField = fields.find(f => f.isPrimaryKey);
+	    const primaryKey = primaryKeyField ? primaryKeyField.fieldName : fields[0]?.fieldName;
+
+	    let php = `<?php include 'db_connect.php'; ?>\n
+	<?php
+	if (!isset($_GET['${primaryKey}'])) {
+	    die("Record not found.");
+	}
+
+	$id = $_GET['${primaryKey}'];
+	$query = "SELECT * FROM \`${tableName}\` WHERE \`${primaryKey}\` = '$id'";
+	$result = mysqli_query($conn, $query);
+
+	if (!$result || mysqli_num_rows($result) == 0) {
+	    die("Record not found.");
+	}
+
+	$row = mysqli_fetch_assoc($result);
+	?>\n
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+	<head>
+	<title>read.php</title>
+	</head>
+	<body>
+	<table border="1">
+	`;
+
+	    // Generate table rows for each field
+	    fields.forEach(field => {
+		php += `    <tr><th>${field.fieldName}</th><td><?= \$row['${field.fieldName}']; ?></td></tr>\n`;
+	    });
+
+	    php += `</table>\n
+	<a href="index.php">Back to List</a>
+	</body>
+	</html>`;
+	    return php;
+	}
+
+	/* ========== Generate edit.php ========== */
+	function generateEditPHP(data) {
+	    const { tableName, fields } = data;
+
+	    // Detect primary key
+	    const primaryKeyField = fields.find(f => f.isPrimaryKey);
+	    const primaryKey = primaryKeyField ? primaryKeyField.fieldName : fields[0]?.fieldName;
+
+	    // Editable fields (exclude auto-increment PK)
+	    const editableFields = fields.filter(f => !(f.isPrimaryKey && f.isAutoIncrement));
+
+	    // Build PHP vars for update (checkbox => 1/0)
+	    let phpVars = "";
+	    editableFields.forEach(field => {
+		if (field.formInputType === "checkbox") {
+		    phpVars += `$${field.fieldName} = isset($_POST['${field.fieldName}']) ? 1 : 0;\n`;
+		} else {
+		    phpVars += `$${field.fieldName} = $_POST['${field.fieldName}'];\n`;
+		}
+	    });
+
+	    // Build UPDATE query string
+	    const updateAssignments = editableFields
+		.map(f => `\`${f.fieldName}\`='$${f.fieldName}'`)
+		.join(", ");
+
+	    // Build form fields, prefilled with existing values
+	    let formFields = "";
+	    editableFields.forEach(field => {
+		if (field.formInputType === "textarea") {
+		    formFields += `
+	<label>${field.fieldName}</label>
+	<textarea name="${field.fieldName}" required><?= \$row['${field.fieldName}']; ?></textarea>\n`;
+		} else if (field.formInputType === "checkbox") {
+		    formFields += `
+	<label>${field.fieldName}</label>
+	<input type="checkbox" name="${field.fieldName}" <?= \$row['${field.fieldName}'] ? 'checked' : '' ?> >\n`;
+		} else {
+		    formFields += `
+	<label>${field.fieldName}</label>
+	<input type="${field.formInputType}" name="${field.fieldName}" value="<?= \$row['${field.fieldName}']; ?>" required>\n`;
+		}
+	    });
+
+	    // Generate final PHP page
+	    let php = `<?php include 'db_connect.php'; ?>\n
+	<?php
+	if (!isset($_GET['${primaryKey}'])) {
+	    die("Record not found.");
+	}
+
+	$id = $_GET['${primaryKey}'];
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	${phpVars}
+	    $query = "UPDATE \`${tableName}\` SET ${updateAssignments} WHERE \`${primaryKey}\`='$id'";
+	    mysqli_query($conn, $query);
+	    header("Location: index.php");
+	    exit;
+	}
+
+	$query = "SELECT * FROM \`${tableName}\` WHERE \`${primaryKey}\`='$id'";
+	$result = mysqli_query($conn, $query);
+
+	if (!$result || mysqli_num_rows($result) == 0) {
+	    die("Record not found.");
+	}
+
+	$row = mysqli_fetch_assoc($result);
+	?>\n
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+	<head>
+	<title>edit.php</title>
+	</head>
+	<body>
+	<form method="POST">
+	${formFields}
+	<button type="submit">Update</button>
+	</form>
+
+	<a href="index.php">Back to List</a>
+	</body>
+	</html>`;
+
+	    return php;
+	}
+
+
+	/* ========== Generate delete.php ========== */
+	function generateDeletePHP(data) {
+	    const { tableName, fields } = data;
+
+	    // Find primary key field
+	    const primaryKeyField = fields.find(f => f.isPrimaryKey);
+	    const primaryKey = primaryKeyField ? primaryKeyField.fieldName : fields[0]?.fieldName;
+
+	    return `<?php include 'db_connect.php'; ?>
+
+	<?php
+	if (!isset($_GET['${primaryKey}'])) {
+	    die("Record not found.");
+	}
+
+	$id = $_GET['${primaryKey}'];
+
+	$query = "DELETE FROM \`${tableName}\` WHERE \`${primaryKey}\`='$id'";
+	mysqli_query($conn, $query);
+
+	header("Location: index.php");
+	exit;
+	?>`;
+	}
+
+	// Phase 3.1: File Preview + Individual Download Support
+
+	// Utility: Download a single file
+	function downloadFile(filename, content) {
+	    const blob = new Blob([content], { type: "text/plain" });
+	    const link = document.createElement("a");
+	    link.href = URL.createObjectURL(blob);
+	    link.download = filename;
+	    link.click();
+	}
+
+	// Create a single accordion item dynamically
+	function createAccordionItem(fileName, fileContent) {
+	    const container = document.createElement("div");
+	    container.className = "accordion-item";
+	    container.style.marginBottom = "10px";
+	    container.style.border = "1px solid #ccc";
+	    container.style.borderRadius = "4px";
+	    container.style.overflow = "hidden";
+
+	    const header = document.createElement("button");
+	    header.textContent = fileName;
+	    header.style.width = "100%";
+	    header.style.textAlign = "left";
+	    header.style.padding = "10px";
+	    header.style.cursor = "pointer";
+	    header.style.fontWeight = "bold";
+	    header.style.backgroundColor = "#f4f4f4";
+	    header.onclick = function () {
+		contentArea.style.display = contentArea.style.display === "block" ? "none" : "block";
+	    };
+
+	    const contentArea = document.createElement("div");
+	    contentArea.style.display = "none";
+	    contentArea.style.padding = "10px";
+	    contentArea.style.backgroundColor = "#fafafa";
+
+	    // Add file text
+	    const codeBlock = document.createElement("pre");
+	    codeBlock.style.whiteSpace = "pre-wrap";
+	    codeBlock.style.wordWrap = "break-word";
+	    codeBlock.textContent = fileContent;
+
+	    // Add download button
+	    const downloadBtn = document.createElement("button");
+	    downloadBtn.textContent = `Download ${fileName}`;
+	    downloadBtn.style.marginTop = "10px";
+	    downloadBtn.onclick = () => downloadFile(fileName, fileContent);
+
+	    contentArea.appendChild(codeBlock);
+	    contentArea.appendChild(downloadBtn);
+	    container.appendChild(header);
+	    container.appendChild(contentArea);
+
+	    return container;
+	}
+
+	// Updated Generate button logic to populate UI
+	document.getElementById("generateBtn").addEventListener("click", () => {
+	    const data = collectCRUDData();
+
+	    // Generate files
+	    const generatedFiles = {
+		"schema.sql": generateSQL(data),
+		"db_connect.php": generateDBConnectPHP(data),
+		"index.php": generateIndexPHP(data),
+		"insert.php": generateInsertPHP(data),
+		"read.php": generateReadPHP(data),
+		"edit.php": generateEditPHP(data),
+		"delete.php": generateDeletePHP(data)
+	    };
+
+	    // Populate accordion
+	    const accordionContainer = document.getElementById("accordionContainer");
+	    accordionContainer.innerHTML = ""; // Clear previous output
+	    for (const [fileName, content] of Object.entries(generatedFiles)) {
+		accordionContainer.appendChild(createAccordionItem(fileName, content));
+	    }
+
+	    // Show output section
+	    document.getElementById("outputSection").style.display = "block";
+
+	    // alert("Files generated and displayed below!");
+	});
+	
+	
+	// ✅ Function to download all files as a ZIP
+	async function downloadZip(generatedFiles) {
+	    const zip = new JSZip();
+
+	    for (const [fileName, content] of Object.entries(generatedFiles)) {
+		zip.file(fileName, content);
+	    }
+
+	    const blob = await zip.generateAsync({ type: "blob" });
+	    const link = document.createElement("a");
+	    link.href = URL.createObjectURL(blob);
+	    link.download = "crud_project.zip";
+	    link.click();
+	}
+		
+
+
+
+	  /* ========== UI wiring: button ========== */
+	  document.getElementById("generateBtn").addEventListener("click", () => {
+	    const data = collectCRUDData();
+
+	    // ✅ Generate files
+	    const generatedFiles = {
+		"schema.sql": generateSQL(data),
+		"db_connect.php": generateDBConnectPHP(data),
+		"index.php": generateIndexPHP(data),
+		"insert.php": generateInsertPHP(data),
+		"read.php": generateReadPHP(data),
+		"edit.php": generateEditPHP(data),
+		"delete.php": generateDeletePHP(data)
+	    };
+
+	    // ✅ Populate accordion
+	    const accordionContainer = document.getElementById("accordionContainer");
+	    accordionContainer.innerHTML = ""; // Clear old previews
+	    for (const [fileName, content] of Object.entries(generatedFiles)) {
+		accordionContainer.appendChild(createAccordionItem(fileName, content));
+	    }
+
+	    // ✅ Show output section
+	    document.getElementById("outputSection").style.display = "block";
+
+	    // ✅ Enable ZIP download
+	    document.getElementById("downloadZipBtn").onclick = () => downloadZip(generatedFiles);
+
+	    // alert("All files generated. Scroll down to preview or download.");
+	});
+
+
+
+
+
+
+
+  /* ========== Phase 1 UI logic (unchanged) ========== */
+  const tableBody = document.querySelector("#fieldsTable tbody");
+
+  function addFieldRow(field = {}) {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td><input type="text" class="field-name" value="${field.fieldName || ''}"></td>
+      <td>
+        <select class="field-type">
+          <option value="INT" ${field.dataType === 'INT' ? 'selected' : ''}>INT</option>
+          <option value="VARCHAR" ${field.dataType === 'VARCHAR' ? 'selected' : ''}>VARCHAR</option>
+          <option value="TEXT" ${field.dataType === 'TEXT' ? 'selected' : ''}>TEXT</option>
+          <option value="FLOAT" ${field.dataType === 'FLOAT' ? 'selected' : ''}>FLOAT</option>
+          <option value="DATE" ${field.dataType === 'DATE' ? 'selected' : ''}>DATE</option>
+          <option value="BOOLEAN" ${field.dataType === 'BOOLEAN' ? 'selected' : ''}>BOOLEAN</option>
+        </select>
+      </td>
+      <td><input type="text" class="field-length" value="${field.length || ''}" ${( ['TEXT','DATE','BOOLEAN'].includes(field.dataType) ? 'disabled' : '' )}></td>
+      <td><input type="radio" name="primaryKey" class="field-pk" ${field.isPrimaryKey ? 'checked' : ''}></td>
+      <td><input type="checkbox" class="field-ai" ${field.isAutoIncrement ? 'checked' : ''} ${(field.isPrimaryKey && field.dataType === 'INT') ? '' : 'disabled'}></td>
+      <td>
+        <select class="field-formtype">
+          <option value="text" ${field.formInputType === 'text' ? 'selected' : ''}>text</option>
+          <option value="textarea" ${field.formInputType === 'textarea' ? 'selected' : ''}>textarea</option>
+          <option value="number" ${field.formInputType === 'number' ? 'selected' : ''}>number</option>
+          <option value="date" ${field.formInputType === 'date' ? 'selected' : ''}>date</option>
+          <option value="checkbox" ${field.formInputType === 'checkbox' ? 'selected' : ''}>checkbox</option>
+        </select>
+      </td>
+      <td><input type="checkbox" class="field-show" ${field.showInIndex ? 'checked' : ''}></td>
+      <td><button type="button" class="remove-btn">X</button></td>
+    `;
+
+    const typeSelect = row.querySelector(".field-type");
+    const lengthInput = row.querySelector(".field-length");
+    const pkRadio = row.querySelector(".field-pk");
+    const aiCheckbox = row.querySelector(".field-ai");
+
+    // initialize default length for new rows without explicit dataType
+    if (!field.dataType) {
+      lengthInput.disabled = false;
+      lengthInput.value = '';
+    }
+
+    typeSelect.addEventListener("change", () => {
+      if (['TEXT','DATE','BOOLEAN'].includes(typeSelect.value)) {
+        lengthInput.value = '';
+        lengthInput.disabled = true;
+      } else {
+        lengthInput.disabled = false;
+        if (!lengthInput.value) {
+          lengthInput.value = typeSelect.value === 'VARCHAR' ? '255' : '11';
+        }
+      }
+      if (pkRadio.checked && typeSelect.value !== 'INT') {
+        aiCheckbox.checked = false;
+        aiCheckbox.disabled = true;
+      } else if (pkRadio.checked && typeSelect.value === 'INT') {
+        aiCheckbox.disabled = false;
+      }
+    });
+
+    pkRadio.addEventListener("change", () => {
+      document.querySelectorAll(".field-ai").forEach(box => { box.checked = false; box.disabled = true; });
+      if (typeSelect.value === 'INT') aiCheckbox.disabled = false;
+    });
+
+    row.querySelector(".remove-btn").addEventListener("click", () => {
+      row.remove();
+      if (!tableBody.querySelector("tr")) {
+        document.getElementById("generateBtn").disabled = true;
+      }
+    });
+
+    tableBody.appendChild(row);
+    document.getElementById("generateBtn").disabled = false;
+  }
+
+  document.getElementById("addFieldBtn").addEventListener("click", () => addFieldRow());
+
+  document.getElementById("presetField").addEventListener("change", function () {
+    const preset = this.value;
+    if (!preset) return;
+
+    const presets = {
+      id:        { fieldName:'id',          dataType:'INT',     length:'11',  isPrimaryKey:true,  isAutoIncrement:true,  formInputType:'text',     showInIndex:false },
+      title:     { fieldName:'title',       dataType:'VARCHAR', length:'255', isPrimaryKey:false, isAutoIncrement:false, formInputType:'text',     showInIndex:true  },
+      description:{fieldName:'description', dataType:'TEXT',    length:'',    isPrimaryKey:false, isAutoIncrement:false, formInputType:'textarea', showInIndex:false },
+      price:     { fieldName:'price',       dataType:'FLOAT',   length:'',    isPrimaryKey:false, isAutoIncrement:false, formInputType:'number',   showInIndex:true  },
+      created:   { fieldName:'created_at',  dataType:'DATE',    length:'',    isPrimaryKey:false, isAutoIncrement:false, formInputType:'date',     showInIndex:true  },
+      boolean:   { fieldName:'is_active',   dataType:'BOOLEAN', length:'',    isPrimaryKey:false, isAutoIncrement:false, formInputType:'checkbox', showInIndex:true  }
+    };
+
+    addFieldRow(presets[preset]);
+    this.value = '';
+  });
+  
+  
+  // ✅ Theme Toggle Logic
+	const body = document.body;
+	const toggleBtn = document.getElementById("themeToggleBtn");
+
+	// ✅ Load saved theme
+	if (localStorage.getItem("theme") === "dark") {
+	    body.classList.add("dark-theme");
+	    toggleBtn.textContent = "☀️ Light Mode";
+	} else {
+	    toggleBtn.textContent = "🌙 Dark Mode";
+	}
+
+	// ✅ Handle click
+	toggleBtn.addEventListener("click", () => {
+	    body.classList.toggle("dark-theme");
+
+	    if (body.classList.contains("dark-theme")) {
+		toggleBtn.textContent = "☀️ Light Mode";
+		localStorage.setItem("theme", "dark");
+	    } else {
+		toggleBtn.textContent = "🌙 Dark Mode";
+		localStorage.setItem("theme", "light");
+	    }
+	});
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</body>
+</html>
+
