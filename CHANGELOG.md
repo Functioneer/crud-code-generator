@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.0 – Initial Release (2025-02-15)
+## v1.0.0 – Initial Release (2025-10-27)
 ✅ First official release  
 ✅ Generates full PHP CRUD scaffold  
 ✅ SQL schema builder included  
@@ -9,6 +9,6 @@
 ✅ Single-file web interface  
 
 ## v1.0.1 - Bug Fixes
-✅ Script added to replaces quotes 
-when entered in insert.php and edit.php
-✅ Added footer
+✅ Script added to replaces quotes when entered in insert.php and edit.php
+
+✅ Footer added
