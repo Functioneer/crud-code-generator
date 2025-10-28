@@ -9,5 +9,5 @@
 ✅ Single-file web interface  
 
 ## v1.0.1 - Bug Fixes
-✅ Script added that replaces quotes when entered in insert.php and edit.php
+✅ Script added to replaces quotes when entered in insert.php and edit.php
 ✅ Added footer
