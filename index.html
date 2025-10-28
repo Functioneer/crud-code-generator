@@ -497,8 +497,10 @@ h2 {
 	    php += `<html>\n`;
 	    php += `<head>\n`;
 	    php += `<title>index.php</title>\n`;
+	    php += `<link rel="stylesheet" type="text/css" href="css/style.css">\n`;
 	    php += `</head>\n`;
 	    php += `<body>\n`;
+	    php += `<div id="container">\n`;
 	    php += `<table border="1">\n`;
 	    php += `    <tr>\n`;
 
@@ -535,7 +537,9 @@ h2 {
 	    php += `        </tr>\n`;
 	    php += `    <?php endwhile; ?>\n`;
 	    php += `</table>\n\n`;
-	    php += `<a href="insert.php">Add New</a>\n`;
+	    php += `<a href="insert.php" class="insert">Add New</a>\n`;
+	    php += `<footer style="font-size: 70%;">© Copyright 2025<script>new Date().getFullYear()>2025&&document.write("-"+new Date().getFullYear());<\/script>. Created with CRUD Code Builder.</footer>`;
+	    php += `</div>`;
 	    php += `</body>\n`;
 	    php += `</html>`
 	    
@@ -570,7 +574,7 @@ h2 {
 	    if (field.formInputType === "textarea") {
 	      formFields += `
 	<label>${field.fieldName}</label>
-	<textarea name="${field.fieldName}" required></textarea>\n`;
+	<textarea id="desc" name="${field.fieldName}" required></textarea>\n`;
 	    } else if (field.formInputType === "checkbox") {
 	      formFields += `
 	<label>${field.fieldName}</label>
@@ -597,13 +601,28 @@ h2 {
 	<html>
 	<head>
 	<title>insert.php</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
+	<div id="container">
 	<form action="" method="POST">
 	${formFields}
-	<button type="submit">Save</button>
+	<button type="submit" onclick="stringReplace();">Save</button>
 	</form>
-	<a href="index.php">Back to List</a>
+	<a href="index.php" class="insert">Back to List</a>
+	<footer style="font-size: 70%;">© Copyright 2025<script>new Date().getFullYear()>2025&&document.write("-"+new Date().getFullYear());<\/script>. Created with CRUD Code Builder.</footer>
+	</div>
+	<script>
+	/* STRINGREPLACE FUNCTIONS START */
+        function stringReplace() {
+	var a = document.getElementById('desc').value;
+	document.getElementById('desc').value = a.replace( /\'/gi, '&#39;' );
+	var b = document.getElementById('desc').value;
+	document.getElementById('desc').value = b.replace( /\$/gi, '&#36;' );
+	var c = document.getElementById('desc').value;
+	document.getElementById('desc').value = c.replace( /\"/gi, '&quot;' );
+	}
+	<\/script>
 	</body>
 	</html>`;
 	
@@ -638,8 +657,10 @@ h2 {
 	<html>
 	<head>
 	<title>read.php</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
+	<div id="container">
 	<table border="1">
 	`;
 
@@ -649,7 +670,9 @@ h2 {
 	    });
 
 	    php += `</table>\n
-	<a href="index.php">Back to List</a>
+	<a href="index.php" class="insert">Back to List</a>
+	<footer style="font-size: 70%;">© Copyright 2025<script>new Date().getFullYear()>2025&&document.write("-"+new Date().getFullYear());<\/script>. Created with CRUD Code Builder.</footer>
+	</div>
 	</body>
 	</html>`;
 	    return php;
@@ -687,7 +710,7 @@ h2 {
 		if (field.formInputType === "textarea") {
 		    formFields += `
 	<label>${field.fieldName}</label>
-	<textarea name="${field.fieldName}" required><?= \$row['${field.fieldName}']; ?></textarea>\n`;
+	<textarea id="desc" name="${field.fieldName}" required><?= \$row['${field.fieldName}']; ?></textarea>\n`;
 		} else if (field.formInputType === "checkbox") {
 		    formFields += `
 	<label>${field.fieldName}</label>
@@ -729,14 +752,29 @@ h2 {
 	<html>
 	<head>
 	<title>edit.php</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
+	<div id="container">
 	<form method="POST">
 	${formFields}
-	<button type="submit">Update</button>
+	<button type="submit" onclick="stringReplace();">Update</button>
 	</form>
 
-	<a href="index.php">Back to List</a>
+	<a href="index.php" class="insert">Back to List</a>
+	<footer style="font-size: 70%;">© Copyright 2025<script>new Date().getFullYear()>2025&&document.write("-"+new Date().getFullYear());<\/script>. Created with CRUD Code Builder.</footer>
+	</div>
+	<script>
+	/* STRINGREPLACE FUNCTIONS START */
+        function stringReplace() {
+	var a = document.getElementById('desc').value;
+	document.getElementById('desc').value = a.replace( /\'/gi, '&#39;' );
+	var b = document.getElementById('desc').value;
+	document.getElementById('desc').value = b.replace( /\$/gi, '&#36;' );
+	var c = document.getElementById('desc').value;
+	document.getElementById('desc').value = c.replace( /\"/gi, '&quot;' );
+	}
+	<\/script>
 	</body>
 	</html>`;
 
@@ -851,7 +889,7 @@ h2 {
 	    // Show output section
 	    document.getElementById("outputSection").style.display = "block";
 
-	    // alert("Files generated and displayed below!");
+	    alert("Files generated and displayed below!");
 	});
 	
 	
